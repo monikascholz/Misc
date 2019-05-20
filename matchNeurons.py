@@ -23,11 +23,13 @@ from prediction.pycpd import deformable_registration, rigid_registration
 ################################################
 def registerWorms(R, X, dim=3, nr = True):
     """use pycpd code to register two worms. R is the reference. """
-    registration = rigid_registration
-    reg = registration(R[:,:dim],X, tolerance=1e-5)
-    reg.register(callback=None)
-    Xreg = reg.TY
-
+    if nr:
+        registration = rigid_registration
+        reg = registration(R[:,:dim],X, tolerance=1e-5)
+        reg.register(callback=None)
+        Xreg = reg.TY
+    else:
+        Xreg = X
     registration = deformable_registration
     reg = registration(R[:,:dim],Xreg, tolerance=1e-8)
     reg.register(callback=None)
